@@ -12,10 +12,10 @@ const monthNames = [
     "July", "August", "September", "October", "November", "December"
 ];
 
-const calendar = (container, year, month) => {
-    const element = document.querySelector(calendar-container);
+const calendar = (elem, year, month) => {
+    const element = document.querySelector(elem);
     const monthIndex = month - 1;
-    let d = new Date(year, monthIndex);
+    let date = new Date(year, monthIndex);
   
     let table = `
       <div class="calendar-card">
@@ -35,25 +35,25 @@ const calendar = (container, year, month) => {
       // пробелы для первого ряда
       // с понедельника до первого дня месяца
       // * * * 1  2  3  4
-    for (let i = 0; i < getDay(d); i++) {
+    for (let i = 0; i < getDay(date); i++) {
         table += '<td class="calendar-card__table-td"></td>';
     }
 
       // <td> ячейки календаря с датами
-    while (d.getMonth() == monthIndex) {
-        table += '<td class="calendar-month-card__table-td">' + d.getDate() + '</td>';
+    while (date.getMonth() == monthIndex) {
+        table += '<td class="calendar-month-card__table-td">' + date.getDate() + '</td>';
 
         if (getDay(d) % 7 == 6) { // вс, последний день - перевод строки
           table += '</tr><tr>';
         }
 
-        d.setDate(d.getDate() + 1);
+        date.setDate(date.getDate() + 1);
     }
 
       // добить таблицу пустыми ячейками, если нужно
       // 29 30 31 * * * *
-    if (getDay(d) != 0) {
-        for (let i = getDay(d); i < 7; i++) {
+    if (getDay(date) != 0) {
+        for (let i = getDay(date); i < 7; i++) {
           table += '<td></td>';
         }
     }
@@ -64,8 +64,8 @@ const calendar = (container, year, month) => {
     element.insertAdjacentHTML('beforeend', table);
 };
 
-const addCalendars = (container, year, delay) => {
-    const element = document.querySelector(calendar-container);
+const createYearCalendar = (elem, year) => {
+    const element = document.querySelector(elem);
     element.innerHTML = '';
     for (let month = 1; month <= 12; month++) {
         calendar(container, year, month);
