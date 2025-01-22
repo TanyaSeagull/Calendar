@@ -1,0 +1,25 @@
+body {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  background: #ef62da;
+  min-height: 100vh;
+  padding: 0 10px;
+  align-items: center;
+  justify-content: center;
+}
+
+.calendar-container {
+  background: #fff;
+  width: 450px;
+  border-radius: 10px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+}
+
+.calendar__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 230px);
+  justify-content: center;
+  gap: 20px 40px;
+  padding: 30px 0px;
+}/*# sourceMappingURL=style.css.map */

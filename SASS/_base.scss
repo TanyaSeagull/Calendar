@@ -1,0 +1,30 @@
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: inherit;
+    
+}
+
+html {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    background: #ef62da;
+    min-height: 100vh;
+    padding: 0 10px;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Poppins', sans-serif;
+    color: $color-darkgrey;
+}
+
+h1, h2, h3, h4, h5, h6, p, ul, ol, figure {
+    margin: 0;
+    padding: 0;
+}
