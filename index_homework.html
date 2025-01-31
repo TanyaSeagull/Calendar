@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap" rel="stylesheet">
+    <title>Calendar</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0 20px 40px;
+            background-color: #ef62da;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .header {
+            margin: 0 auto;
+            max-width: 200px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .container {
+            max-width: 1440px;
+            margin: 0 auto;
+            display: grid;
+	        grid-template-columns: repeat(4, 240px);
+	        justify-content: space-evenly;
+	        gap: 30px 20px;
+	        padding: 20px 0px;
+            border-radius: 35px;
+
+        }
+
+        table {
+            background-color: #fff;
+	        height: 300px; 
+            margin: 0 auto;   
+            border-radius: 0 0 10px 10px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+        }
+
+        caption {
+            padding: 5px;
+            background-color: #fff;
+            border-radius: 10px 10px 0 0;
+            font-weight: 500;
+            font-size: 1.4rem;
+        }
+
+        th {
+            font-weight: 300;
+            font-style: normal;  
+	
+        }
+
+        td {
+            text-align: center;
+            padding: 8px;
+        }
+
+        button {
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: transparent;
+            transform: translate(-1px, -1px);
+            font-size: 1.2rem;
+        }
+
+        button:active {
+            transform: translate(1px, 1px);
+        }
+
+        
+
+        .today {
+            background-color: #ef62da;
+            color: #ebedf0;
+            font-weight: 500;
+        }
+
+        .weekend {
+            color: #ef62da;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container"></div>
+
+    <script>
+        let currYear = 2025;
+
+        const months = [
+            "January",
+            "February",
+            "March",
+            "April",
+            "May",
+            "June",
+            "July",
+            "August",
+            "September",
+            "October",
+            "November",
+            "December"
+        ];
+
+
+        function getDay(date) {
+            let day = date.getDay();
+            if (day === 0) {
+                day = 7;
+            }
+            return day - 1;
+        }
+
+        function createCalendar(elem, year, month) {
+            elem = document.querySelector(elem);
+            month = month - 1;;
+            date = new Date(year, month);
+
+            let table = `<table>
+            <caption>${months[month]}</caption>
+            <tr>
+                <th>M</th>
+                <th>T</th>
+                <th>W</th>
+                <th>Th</th>
+                <th>F</th>
+                <th class="weekend">Sa</th>
+                <th class="weekend">Su</th>
+            </tr>
+            <tr>`;
+
+            for (let i = 0; i < getDay(date); i++) {
+                table += '<td></td>';
+            }
+
+            while (date.getMonth() === (month)) {
+                let td = document.createElement('td');
+                td.textContent = date.getDate();
+                if (date.toDateString() == new Date(Date.now()).toDateString()) {
+                    td.classList.add("today");
+                }
+                if ([0, 6].includes(date.getDay())) {
+                    td.classList.add("weekend");
+                }
+                table += td.outerHTML;
+
+                if (date.getDay() === 0) {
+                    table += "</tr><tr>";
+                }
+                date.setDate(date.getDate() + 1);
+            }
+
+            if (getDay(date) > 0) {
+                for (let i = getDay(date); i < 7; i++) {
+                    table += '<td></td>';
+                }
+            }
+
+            table += "</tr></table>";
+            elem.innerHTML = table;
+        }
+
+        function createYearCalendar(elem, year) {
+            
+            elem = document.querySelector(elem);
+
+            for (let i = 0; i < 12; i++) {
+                let month = document.createElement('div');
+                month.classList.add(`month__${i + 1}`);
+                elem.append(month);
+                div = `.${month.className}`;
+                createCalendar(div, year, i + 1);
+                month.classList.add('month');
+            }
+        }
+
+        function createHeader() {
+           
+            let header = document.createElement('div');
+            header.className = 'header';
+
+            let leftBtn = document.createElement('button');
+            leftBtn.id = 'left';
+            leftBtn.textContent = '◀';
+            header.append(leftBtn);
+
+            let yearDisplay = document.createElement('h1');
+            yearDisplay.style.display = 'inline';
+            yearDisplay.textContent = currYear;
+            header.append(yearDisplay);
+
+            let rightBtn = document.createElement('button');
+            rightBtn.id = 'right';
+            rightBtn.textContent = '▶';
+            header.append(rightBtn);
+
+            document.querySelector('body').prepend(header);
+
+            leftBtn.addEventListener('click', () => {
+                currYear -= 1;
+                document.querySelector('h1').textContent = currYear;
+                document.querySelector('.container').innerHTML = "";
+                createYearCalendar('.container', currYear);
+            })
+
+            rightBtn.addEventListener('click', () => {
+                currYear += 1;
+                document.querySelector('h1').textContent = currYear;
+                document.querySelector('.container').innerHTML = "";
+                createYearCalendar('.container', currYear);
+            })
+        };
+
+        createHeader();
+        createYearCalendar('.container', currYear);  
+    </script>
+</body>
+
+</html>
