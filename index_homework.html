@@ -84,12 +84,23 @@
 
         .today {
             background-color: #ef62da;
-            color: #ebedf0;
+            color: #fff;
             font-weight: 500;
+            border-radius: 50%; /* Makes the cell round */
+            width: 30px; /* Adjust the width and height to make it a perfect circle */
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto; 
         }
 
         .weekend {
             color: #ef62da;
+        }
+
+        .today.weekend {
+            color: white;
         }
     </style>
 </head>
